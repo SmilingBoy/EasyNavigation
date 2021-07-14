@@ -3,6 +3,8 @@ package com.next.easynavigation.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -250,7 +251,7 @@ public class EasyNavigationBar extends LinearLayout {
             hintPointTop = attributes.getDimension(R.styleable.EasyNavigationBar_Easy_hintPointTop, hintPointTop);
 
             msgPointLeft = attributes.getDimension(R.styleable.EasyNavigationBar_Easy_msgPointLeft, -iconSize / 2);
-            msgPointTextSize = NavigationUtil.compareTo(getContext(),attributes.getDimension(R.styleable.EasyNavigationBar_Easy_msgPointTextSize, 0),msgPointTextSize,textSizeType);
+            msgPointTextSize = NavigationUtil.compareTo(getContext(), attributes.getDimension(R.styleable.EasyNavigationBar_Easy_msgPointTextSize, 0), msgPointTextSize, textSizeType);
             centerIconSize = attributes.getDimension(R.styleable.EasyNavigationBar_Easy_centerIconSize, centerIconSize);
             centerLayoutBottomMargin = attributes.getDimension(R.styleable.EasyNavigationBar_Easy_centerLayoutBottomMargin, centerLayoutBottomMargin);
 
@@ -418,7 +419,7 @@ public class EasyNavigationBar extends LinearLayout {
         hintPointTop = NavigationUtil.dip2px(getContext(), -3);
 
         //消息红点字体大小
-        msgPointTextSize =11;
+        msgPointTextSize = 11;
         //消息红点大小
         msgPointSize = NavigationUtil.dip2px(getContext(), 18);
         //消息红点距Tab图标右侧的距离   默认为Tab图标的一半
@@ -605,7 +606,7 @@ public class EasyNavigationBar extends LinearLayout {
                     addTabItemView(i);
                 }
                 selectNormalTabUI(0, false);
-                if(onTabLoadListener!=null)
+                if (onTabLoadListener != null)
                     onTabLoadListener.onTabLoadCompleteEvent();
             }
         });
@@ -756,7 +757,7 @@ public class EasyNavigationBar extends LinearLayout {
                     addTabItemView(i);
                 }
                 selectNormalTabUI(0, false);
-                if(onTabLoadListener!=null)
+                if (onTabLoadListener != null)
                     onTabLoadListener.onTabLoadCompleteEvent();
             }
         });
@@ -913,7 +914,7 @@ public class EasyNavigationBar extends LinearLayout {
 
         //消息红点
         TextView msgPoint = itemView.findViewById(R.id.msg_point_tv);
-        msgPoint.setTextSize(textSizeType,msgPointTextSize);
+        msgPoint.setTextSize(textSizeType, msgPointTextSize);
         RelativeLayout.LayoutParams msgPointParams = (RelativeLayout.LayoutParams) msgPoint.getLayoutParams();
         msgPointParams.bottomMargin = (int) NavigationUtil.dip2px(getContext(), -12);
         msgPointParams.leftMargin = (int) msgPointLeft;
@@ -1038,7 +1039,7 @@ public class EasyNavigationBar extends LinearLayout {
                 }
 
                 selectNormalTabUI(0, false);
-                if(onTabLoadListener!=null)
+                if (onTabLoadListener != null)
                     onTabLoadListener.onTabLoadCompleteEvent();
             }
         });
@@ -1737,5 +1738,71 @@ public class EasyNavigationBar extends LinearLayout {
     public EasyNavigationBar setOnTabLoadListener(OnTabLoadListener onTabLoadListener) {
         this.onTabLoadListener = onTabLoadListener;
         return this;
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.titleItems = titleItems;
+        ss.normalIconItems = normalIconItems;
+        ss.selectIconItems = selectIconItems;
+        ss.fragmentList = fragmentList;
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        this.titleItems = ss.titleItems;
+        this.normalIconItems = ss.normalIconItems;
+        this.selectIconItems = ss.selectIconItems;
+        this.fragmentList = ss.fragmentList;
+    }
+
+
+    static class SavedState extends BaseSavedState {
+        //文字集合
+        private String[] titleItems = new String[]{};
+        //未选择 图片集合
+        private int[] normalIconItems = new int[]{};
+        //已选择 图片集合
+        private int[] selectIconItems = new int[]{};
+        //fragment集合
+        private List<Fragment> fragmentList = new ArrayList<>();
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            in.readStringArray(titleItems);
+            in.readIntArray(normalIconItems);
+            in.readIntArray(selectIconItems);
+            in.readArrayList(Fragment.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeStringArray(titleItems);
+            out.writeIntArray(normalIconItems);
+            out.writeIntArray(selectIconItems);
+            out.writeList(fragmentList);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }

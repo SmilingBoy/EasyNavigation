@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/EasyNavigation.iml" filepath="$PROJECT_DIR$/.idea/EasyNavigation.iml" group="EasyNavigation" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="EasyNavigation/app" />
-      <module fileurl="file://$PROJECT_DIR$/easynavigation/easynavigation.iml" filepath="$PROJECT_DIR$/easynavigation/easynavigation.iml" group="EasyNavigation/easynavigation" />
-      <module fileurl="file://$PROJECT_DIR$/navigation.iml" filepath="$PROJECT_DIR$/navigation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/navigition.iml" filepath="$PROJECT_DIR$/navigition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EasyNavigation.iml" filepath="$PROJECT_DIR$/.idea/modules/EasyNavigation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EasyNavigation.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EasyNavigation.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/easynavigation/EasyNavigation.easynavigation.iml" filepath="$PROJECT_DIR$/.idea/modules/easynavigation/EasyNavigation.easynavigation.iml" />
     </modules>
   </component>
 </project>
