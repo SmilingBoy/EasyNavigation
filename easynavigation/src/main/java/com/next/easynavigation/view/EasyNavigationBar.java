@@ -1747,7 +1747,6 @@ public class EasyNavigationBar extends LinearLayout {
         ss.titleItems = titleItems;
         ss.normalIconItems = normalIconItems;
         ss.selectIconItems = selectIconItems;
-        ss.fragmentList = fragmentList;
         return ss;
     }
 
@@ -1758,7 +1757,6 @@ public class EasyNavigationBar extends LinearLayout {
         this.titleItems = ss.titleItems;
         this.normalIconItems = ss.normalIconItems;
         this.selectIconItems = ss.selectIconItems;
-        this.fragmentList = ss.fragmentList;
     }
 
 
@@ -1769,8 +1767,6 @@ public class EasyNavigationBar extends LinearLayout {
         private int[] normalIconItems = new int[]{};
         //已选择 图片集合
         private int[] selectIconItems = new int[]{};
-        //fragment集合
-        private List<Fragment> fragmentList = new ArrayList<>();
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -1781,7 +1777,6 @@ public class EasyNavigationBar extends LinearLayout {
             in.readStringArray(titleItems);
             in.readIntArray(normalIconItems);
             in.readIntArray(selectIconItems);
-            in.readArrayList(Fragment.class.getClassLoader());
         }
 
         @Override
@@ -1790,7 +1785,6 @@ public class EasyNavigationBar extends LinearLayout {
             out.writeStringArray(titleItems);
             out.writeIntArray(normalIconItems);
             out.writeIntArray(selectIconItems);
-            out.writeList(fragmentList);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
